@@ -1,7 +1,7 @@
 <html lang="pl"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taryfikator Policyjny - Kodeks Karny</title>
+  <title>Testowy Taryfikator Policyjny - Kodeks Karny</title>
   <style>
     :root {
       --primary-color: #2c3e50;
@@ -27,12 +27,16 @@
       line-height: 1.6;
       padding: 0;
       margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     
     .container {
        max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
+      flex: 1;
     }
     
     header {
@@ -252,6 +256,15 @@
     
     *:focus {
       outline: none;
+    }
+    
+    footer {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: auto;
+      font-size: 0.9rem;
     }
     
     @media (max-width: 768px) {
@@ -661,11 +674,11 @@
     <div class="total-box">
       <div class="total-item">
         <div>Łączna grzywna</div>
-        <div class="total-value fine-total">$<span id="fineTotalMin">0</span> - $<span id="fineTotalMax">0</span></div>
+        <div class="total-value fine-total">$<span id="fineTotalMin">5,000</span> - $<span id="fineTotalMax">7,000</span></div>
       </div>
       <div class="total-item">
         <div>Łączny wyrok</div>
-        <div class="total-value jail-total"><span id="jailTotalMin">0</span> - <span id="jailTotalMax">0</span> miesięcy</div>
+        <div class="total-value jail-total"><span id="jailTotalMin">0</span> - <span id="jailTotalMax">30</span> miesięcy</div>
       </div>
     </div>
 
@@ -675,6 +688,10 @@
       <button class="btn-success copy-btn" id="copyBtn">Kopiuj do schowka</button>
     </div>
   </div>
+
+  <footer>
+    &copy; 2025 1nVibe & MSHF. Wszelkie prawa zastrzeżone.
+  </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -711,7 +728,6 @@
         
         rows.forEach(row => {
           if (row.classList.contains('category-header')) {
-            // Hide header by default, we'll show it if needed
             row.style.display = 'none';
             lastVisibleHeader = row;
           } else {
@@ -809,7 +825,22 @@
       }
 
       copyBtn.addEventListener('click', function() {
-        const textToCopy = offensesList.innerText;
+        let articlesToCopy = [];
+        checkboxes.forEach(cb => {
+          if (cb.checked) {
+            const row = cb.closest('tr');
+            const offenseText = row.cells[0].textContent;
+            const articlePart = offenseText.split('|')[0].trim();
+            articlesToCopy.push(articlePart);
+          }
+        });
+
+        if (articlesToCopy.length === 0) {
+          alert('Nie zaznaczono żadnych wykroczeń do skopiowania');
+          return;
+        }
+
+        const textToCopy = articlesToCopy.join('\n');
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
             const originalText = copyBtn.textContent;
@@ -828,5 +859,6 @@
       });
     });
   </script>
+
 
 </body></html>
