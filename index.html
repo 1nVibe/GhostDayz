@@ -1,8 +1,11 @@
-<html lang="pl"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Testowy Taryfikator Policyjny - Kodeks Karny</title>
-  <style>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taryfikator wykroczeń i przestępstw</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
     :root {
       --primary-color: #2c3e50;
       --secondary-color: #3498db;
@@ -10,18 +13,31 @@
       --light-color: #ecf0f1;
       --dark-color: #2c3e50;
       --success-color: #27ae60;
+      --warning-color: #f39c12;
       --table-row-odd: #ffffff;
-      --table-row-even: #e6f0f9;
-      --table-hover: rgb(25, 150, 25);
+      --table-row-even: #f8f9fa;
+      --table-hover: rgba(148, 250, 148, 0.8);
       --category-traffic: #3498db;
       --category-minor: #2ecc71;
       --category-major: #e67e22;
       --category-weapons: #9b59b6;
       --category-violence: #e74c3c;
+      --category-drugs: #8e44ad;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      text-decoration: none;
     }
     
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
       background-color: #f5f7fa;
       color: var(--dark-color);
       line-height: 1.6;
@@ -33,66 +49,116 @@
     }
     
     .container {
-       max-width: 1200px;
+      max-width: 1500px;
       margin: 0 auto;
       padding: 20px;
       flex: 1;
     }
     
     header {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color) 0%, #1a2b3c 100%);
       color: white;
-      padding: 20px 0;
+      padding: 25px 0;
       text-align: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--secondary-color), var(--success-color), var(--accent-color));
     }
     
     h1 {
       margin: 0;
-      font-size: 2.2rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
     }
     
     .subtitle {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       opacity: 0.9;
-      margin-top: 5px;
+      margin-top: 8px;
+      font-weight: 300;
     }
     
     .controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 20px 0;
+      margin: 25px 0;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 15px;
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
     }
     
-    .search-box {
+    .search-container {
+      position: relative;
       flex-grow: 1;
-      max-width: 400px;
+      max-width: 500px;
     }
     
     .search-box input {
       width: 100%;
-      padding: 10px 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      padding: 12px 20px;
+      border: 2px solid var(--light-color);
+      border-radius: 30px;
       font-size: 16px;
+      background-color: white;
+      color: var(--dark-color);
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      padding-right: 45px;
+    }
+    
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .search-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary-color);
+      font-size: 1.2rem;
     }
     
     .buttons {
       display: flex;
-      gap: 10px;
+      gap: 12px;
+      flex-wrap: wrap;
     }
     
     button {
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 4px;
+      border-radius: 30px;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    button i {
+      font-size: 1.1rem;
     }
     
     .btn-primary {
@@ -110,23 +176,38 @@
       color: white;
     }
     
+    .btn-warning {
+      background-color: var(--warning-color);
+      color: white;
+    }
+    
     button:hover {
       opacity: 0.9;
       transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    button:active {
+      transform: translateY(0);
     }
     
     table {
       width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 25px 0;
+      box-shadow: var(--shadow-md);
       background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      table-layout: auto;
+      
     }
     
     th, td {
-      padding: 12px 15px;
+      padding: 15px;
       text-align: left;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #e0e0e0;
     }
     
     th {
@@ -134,15 +215,14 @@
       color: white;
       position: sticky;
       top: 0;
-      cursor: default;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
     }
     
-    #taryfikator tr {
-      cursor: pointer;
-    }
-    
-    tr:nth-child(odd) {
-      background-color: var(--table-row-odd);
+    tr {
+      transition: var(--transition);
     }
     
     tr:nth-child(even) {
@@ -151,48 +231,78 @@
     
     tr:hover {
       background-color: var(--table-hover);
-      color: white;
+      transform: scale(1.005);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
-    tr:hover .jail-range,
-    tr:hover .fine-amount {
-      color: white;
-    }
     
     .jail-range {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--accent-color);
     }
     
     .fine-amount {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--success-color);
     }
     
-    #taryfikator input[type="checkbox"] {
+    input[type="checkbox"] {
       cursor: pointer;
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       margin: 0;
+      accent-color: var(--secondary-color);
+      transition: var(--transition);
+    }
+    
+    input[type="checkbox"]:hover {
+      transform: scale(1.1);
     }
     
     .total-box {
-      background-color: white;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      margin: 20px 0;
+      background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      margin: 25px 0;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      border: 1px solid #e0e0e0;
     }
     
+    .row-selected {
+      background-color: rgba(46, 204, 113, 0.15) !important;
+      border-left: 3px solid var(--success-color);
+    }
+
     .total-item {
       text-align: center;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: rgba(255,255,255,0.8);
+      box-shadow: var(--shadow-sm);
+      min-width: 180px;
+      transition: var(--transition);
+    }
+    
+    .total-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .total-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark-color);
+      margin-bottom: 8px;
+      display: block;
     }
     
     .total-value {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 700;
     }
     
@@ -204,76 +314,164 @@
       color: var(--accent-color);
     }
     
+    .offenses-total {
+      color: var(--secondary-color);
+    }
+    
     #selectedOffenses {
       background-color: white;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      margin-top: 20px;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      margin-top: 25px;
       display: none;
+      border: 1px solid #e0e0e0;
     }
     
     .offense-item {
-      padding: 10px 0;
+      padding: 15px;
       border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+    }
+    
+    .offense-item:hover {
+      background-color: var(--table-hover);
     }
     
     .offense-item:last-child {
       border-bottom: none;
     }
     
-    .copy-btn {
-      margin-top: 15px;
+    
+    .offense-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border-radius: 4px;
     }
     
     .category-header {
-      background-color: var(--primary-color);
       color: white;
       font-weight: bold;
-      padding: 10px 15px;
-      cursor: default;
+      padding: 12px 15px;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      position: sticky;
+      top: 60px;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     
     .category-traffic {
-      background-color: var(--category-traffic);
+      background: linear-gradient(135deg, var(--category-traffic) 0%, #2980b9 100%);
     }
     
     .category-minor {
-      background-color: var(--category-minor);
+      background: linear-gradient(135deg, var(--category-minor) 0%, #27ae60 100%);
     }
     
     .category-major {
-      background-color: var(--category-major);
+      background: linear-gradient(135deg, var(--category-major) 0%, #d35400 100%);
     }
     
     .category-weapons {
-      background-color: var(--category-weapons);
+      background: linear-gradient(135deg, var(--category-weapons) 0%, #8e44ad 100%);
     }
     
     .category-violence {
-      background-color: var(--category-violence);
+      background: linear-gradient(135deg, var(--category-violence) 0%, #c0392b 100%);
     }
     
-    *:focus {
-      outline: none;
+    .category-drugs {
+      background: linear-gradient(135deg, var(--category-drugs) 0%, #732d91 100%);
     }
     
     footer {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color) 0%, #1a2b3c 100%);
       color: white;
       text-align: center;
-      padding: 15px 0;
-      margin-top: auto;
+      padding: 20px 0;
+      margin-top: 40px;
+      font-size: 0.95rem;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+    
+    footer p {
+      margin: 5px 0;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    
+    .badge-danger {
+      background-color: var(--accent-color);
+      color: white;
+    }
+    
+    .badge-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    
+    .badge-warning {
+      background-color: var(--warning-color);
+      color: white;
+    }
+    
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
       font-size: 0.9rem;
+      font-weight: normal;
+    }
+    
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
     }
     
     @media (max-width: 768px) {
       .controls {
         flex-direction: column;
+        align-items: stretch;
       }
       
-      .search-box {
+      .search-container {
         max-width: 100%;
+      }
+      
+      .buttons {
+        justify-content: center;
       }
       
       .total-box {
@@ -281,584 +479,674 @@
         gap: 15px;
       }
       
+      .total-item {
+        width: 100%;
+      }
+      
       th, td {
-        padding: 8px 10px;
-        font-size: 14px;
+        padding: 12px 8px;
+        font-size: 0.9rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
       }
     }
-  </style>
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+    }
+    
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    .table-wrapper {
+      overflow-x: auto;
+      width: 100%;
+      min-height: 300px;
+      transition: min-height 0.3s ease-in-out;
+      background-color: white; 
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      padding: 10px 0; 
+    }
+
+
+    tbody tr {
+      height: 50px; 
+    }
+
+    .no-results-row td {
+      text-align: center;
+      padding: 25px;
+      font-style: italic;
+      color: #888;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--secondary-color);
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2980b9;
+    }
+    </style>
+    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/2y4vyqI.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <header>
+    <header>
+        <div class="container">
+            <h1>Taryfikator wykroczeń i przestępstw</h1>
+            <div class="subtitle">Narzędzie do obliczania kar zgodnie z polskim prawem</div>
+        </div>
+    </header>
+
     <div class="container">
-      <h1>Taryfikator Policyjny</h1>
-      <div class="subtitle">Kodeks Karny - Wykaz wykroczeń i kar</div>
-    </div>
-  </header>
-
-  <div class="container">
-    <div class="controls">
-      <div class="search-box"> 
-        <input type="text" id="searchInput" placeholder="Wyszukaj wykroczenie...">
-      </div>
-      <div class="buttons">
-        <button class="btn-primary" id="showSelectedBtn">Pokaż zaznaczone</button>
-        <button class="btn-danger" id="resetBtn">Resetuj</button>
-      </div>
-    </div><table>
-      <thead>
-        <tr>
-          <th>Wykroczenie</th>
-          <th>Grzywna ($)</th>
-          <th>Więzienie (msc)</th>
-          <th>Zaznacz</th>
-        </tr>
-      </thead>
-      <tbody id="taryfikator">
-        <!-- Wykroczenia -->
-        <tr class="category-header category-traffic">
-          <td colspan="4" style="background-color: #3F5368;">Wykroczenia drogowe</td>
-        </tr>
-        <tr>
-          <td>Art. 86 §1 KW | Spowodowanie zagrożenia bezpieczeństwa w ruchu drogowym</td>
-          <td class="fine-amount">2.500-5000</td>
-          <td class="jail-range">Brak</td>
-          <td><input type="checkbox" data-fine-min="2500" data-fine-max="5000" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-        <tr>
-          <td>Art. 87 §1 KW	| Jazda pod wpływem alkoholu lub narkotyków (powyżej 0,5 promila)</td>
-          <td class="fine-amount">5000-10000</td>
-          <td class="jail-range">10-30</td>
-          <td><input type="checkbox" data-fine-min="5000" data-fine-max="10000" data-jail-min="10" data-jail-max="30"></td>
-        </tr>
-        <tr>
-          <td>Art. 92 §1 pkt 3 Kodeksu wykroczeń | Przekroczenie dozwolonej prędkości (o ponad 50 km/h w obszarze zabudowanym)</td>
-          <td class="fine-amount">1500-5000</td>
-          <td class="jail-range">0-30</td>
-          <td><input type="checkbox" data-fine-min="5000" data-fine-max="7000" data-jail-min="0" data-jail-max="30"></td>
-        </tr>
-        <tr>
-          <td>Art. 92 §1 pkt 3 Kodeksu wykroczeń | Przekroczenie prędkości o ponad 50 km/h w obszarze zabudowanym</td>
-          <td class="fine-amount">400-2500</td>
-          <td class="jail-range">Brak</td>
-          <td><input type="checkbox" data-fine-min="400" data-fine-max="2500" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-        <tr>
-          <td>Art. 178 KK | 86 &amp;1 Kodeksu wykroczeń |Brawurowa jazda / Stwarzanie zagrożenia</td>
-          <td class="fine-amount">1000-4000</td>
-          <td class="jail-range">0-5</td>
-          <td><input type="checkbox" data-fine-min="1000" data-fine-max="4000" data-jail-min="0" data-jail-max="5"></td>
-        </tr>
-        <tr>
-          <td>Art. 178b KK | Niezatrzymanie się do kontroli drogowej (ucieczka przed Policją)</td>
-          <td class="fine-amount">2500-5000</td>
-          <td class="jail-range">5-15</td>
-          <td><input type="checkbox" data-fine-min="2500" data-fine-max="5000" data-jail-min="5" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 86 §1 pkt 1 Kodeksu wykroczeń | Poruszanie się pojazdem w stanie zagrażającym bezpieczeństwu</td>
-          <td class="fine-amount">1500-2000</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="1500" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-        <tr>
-          <td>Art. 92 §1 pkt 1 Kodeksu wykroczeń | Przejazd na czerwonym świetle</td>
-          <td class="fine-amount">200-1500</td>
-          <td class="jail-range">Brak</td>
-          <td><input type="checkbox" data-fine-min="200" data-fine-max="1500" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-        <tr>
-          <td>Art. 288 KK | 177 §1 KK |Zniszczenie mienia, spowodowanie wypadku</td>
-          <td class="fine-amount">5000-10000</td>
-          <td class="jail-range">0-15</td>
-          <td><input type="checkbox" data-fine-min="5000" data-fine-max="10000" data-jail-min="0" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 177 §1 KK| 178 KK | 181 KK |Potrącenie pieszego (w zależności od skutków)</td>
-          <td class="fine-amount">500-5000</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="5000" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 49 §1 pkt 3 Kodeksu wykroczeń | Nieprawidłowe parkowanie</td>
-          <td class="fine-amount">100-500</td>
-          <td class="jail-range">Brak</td>
-          <td><input type="checkbox" data-fine-min="100" data-fine-max="500" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-        <tr>
-          <td>Art. 97 Kodeksu wykroczeń | Przechodzenie przez jezdnię w miejscu niedozwolonym</td>
-          <td class="fine-amount">50-200</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="50" data-fine-max="200" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-
-        <!-- Przestępstwa lekkie -->
-        <tr class="category-header category-minor">
-          <td colspan="4" style="background-color: #3F5368;">Przestępstwa lekkie</td>
-        </tr>
-        <tr>
-          <td>Art. 224 KK | Niezastosowanie się do poleceń funkcjonariusza publicznego</td>
-          <td class="fine-amount">500-1000</td>
-          <td class="jail-range">0-5</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="1000" data-jail-min="0" data-jail-max="5"></td>
-        </tr>
-        <tr>
-          <td>Art. 226 KK | Znieważenie funkcjonariusza publicznego</td>
-          <td class="fine-amount">500-1500</td>
-          <td class="jail-range">0-5</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="1500" data-jail-min="0" data-jail-max="5"></td>
-        </tr>
-        <tr>
-          <td>Art. 221 KK | Przeszkadzanie funkcjonariuszowi publicznemu w wykonywaniu obowiązków</td>
-          <td class="fine-amount">500-1500</td>
-          <td class="jail-range">5-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="1500" data-jail-min="5" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 66a KK | Fałszywe zawiadomienie o przestępstwie lub niebezpieczeństwie</td>
-          <td class="fine-amount">1500-5000</td>
-          <td class="jail-range">0-15</td>
-          <td><input type="checkbox" data-fine-min="1500" data-fine-max="5000" data-jail-min="0" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 233 KK | Składanie fałszywych zeznań</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-50</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="50"></td>
-        </tr>
-        <tr>
-          <td>Art. 278 §1 KK | Kradzież pojazdu</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">5-30</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="30"></td>
-        </tr>
-        <tr>
-          <td>Art. 244 KK | Przemyt, posiadanie i handel towarami akcyzowymi bez legalnych dokumentów</td>
-          <td class="fine-amount">500-1500</td>
-          <td class="jail-range">0-10</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="1500" data-jail-min="0" data-jail-max="10"></td>
-        </tr>
-        <tr>
-          <td>Art. 224 KK | Stawianie czynnego oporu funkcjonariuszowi publicznemu</td>
-          <td class="fine-amount">200-800</td>
-          <td class="jail-range">0-10</td>
-          <td><input type="checkbox" data-fine-min="200" data-fine-max="800" data-jail-min="0" data-jail-max="10"></td>
-        </tr>
-        <tr>
-          <td>Art. 278 §1 KK | Kradzież cudzej własności</td>
-          <td class="fine-amount">500-800</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="800" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 189a KK | Ukrywanie się lub zakrywanie twarzy w celu utrudnienia identyfikacji (np. chodzenie zamaskowanym)</td>
-          <td class="fine-amount">100-500</td>
-          <td class="jail-range">Brak</td>
-          <td><input type="checkbox" data-fine-min="100" data-fine-max="500" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-        <tr>
-          <td>Art. 229 §1 KK | Próba przekupstwa funkcjonariusza publicznego</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-30</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="30"></td>
-        </tr>
-        <tr>
-          <td>Art. 278 §1 KK | Kradzież pojazdu (np. radiowozu)</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-30</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="30"></td>
-        </tr><!-- Przestępstwa ciężkie -->
-        <tr class="category-header category-major">
-        <td colspan="4" style="background-color: #3F5368;">Przestępstwa ciężkie</td>
-        </tr>
-        <tr>
-        <td>190 §1 KK | 160 KK |Groźby z bronią</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">15-30</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="15" data-jail-max="30"></td>
-        </tr>
-        <tr>
-        <td>Art. 178b KK | ucieczka przed Policją</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">5-10</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="10"></td>
-        </tr>
-        <tr>
-        <td>Art. 189 §1 i §3 KK | Porwanie (bezprawne pozbawienie wolności osoby)</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">5-30</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="30"></td>
-        </tr>
-        <tr>
-        <td>Art. 239 §1 KK | Pomoc w ucieczce</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">5-10</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="10"></td>
-        </tr>
-        <tr>
-        <td>Art. 18 §1-3 KK | Współudział w przestępstwie (np. napad na jubilera)</td>
-        <td class="fine-amount">zależnie od czynu głównego</td>
-        <td class="jail-range">jak za główne przestępstwo</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="0" data-jail-max="0"></td>
-        </tr>
-        <tr>
-        <td>Art. 280 §1 KK | Napad na sklep</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">10-30</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="30"></td>
-        </tr>
-        <tr>
-        <td>Art. 280 §2 KK | Napad na Jubilera</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">15-50</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="15" data-jail-max="50"></td>
-        </tr>
-        <tr>
-        <td>Art. 280 §2 KK | Napad na bank / skarbiec z użyciem broni</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">20-50</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="20" data-jail-max="50"></td>
-        </tr>
-        <tr>
-        <td>Art. 189 §1 i §3 KK | Bezprawne pozbawienie wolności funkcjonariusza publicznego (porwanie Policjanta)</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">10-15</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-        <td>Art. 13 §1 + 280 KK | Próba napadu / napaści</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">5-10</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="10"></td>
-        </tr>
-        <tr>
-        <td>Art. 227 KK | Podszywanie się pod funkcjonariusza</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">5-10</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="10"></td>
-        </tr>
-        <tr>
-        <td>Art. 190a §1 KK | Nękanie obywatela (stalking)</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">5-10</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="10"></td>
-        </tr>
-        <tr>
-        <td>Art. 115 §20 KK | Terroryzm (definicja)</td>
-        <td class="fine-amount">Brak</td>
-        <td class="jail-range">300-Dożywocie</td>
-        <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="300" data-jail-max="9999"></td>
-        </tr>
-        
-
-        <!-- Przestępstwa związane z bronią i nielegalnymi substancjami -->
-        <tr class="category-header category-weapons">
-          <td colspan="4" style="background-color: #3F5368;">Przestępstwa związane z bronią i nielegalnymi substancjami</td>
-        </tr>
-        <tr>
-          <td>Art. 62 ust. 1 UoPN | Posiadanie narkotyków miękkich (&gt;5g marihuany)</td>
-          <td class="fine-amount">500-2500</td>
-          <td class="jail-range">5-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="2500" data-jail-min="5" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 62 ust. 2 UoPN | Posiadanie narkotyków twardych (kokaina, meta)</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="2000" data-fine-max="5000" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 59 ust. 1 UoPN | Handel narkotykami miękkimi</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 59 ust. 2 UoPN | Handel narkotykami twardymi</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="15" data-jail-max="20"></td>
-        </tr>
-        <tr>
-          <td>Art. 263 §2 KK | Posiadanie broni bez pozwolenia</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 263 §1 KK | Posiadanie zarejestrowanej broni krótkiej bez zezwolenia</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 263 §2-3 KK | Posiadanie nielegalnej broni długiej (klasa 3)</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">15-30</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="15" data-jail-max="30"></td>
-        </tr>
-        <tr>
-          <td>Art. 263 §1 KK | Handel bronią</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">20-30</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="20" data-jail-max="30"></td>
-        </tr>
-        <tr>
-          <td>Art. 160 KK | Bezpodstawne użycie broni / narażenie życia</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-
-        <!-- Przestępstwa związane z użyciem siły/uszczerbkiem na zdrowiu -->
-        <tr class="category-header category-violence">
-          <td colspan="4" style="background-color: #3F5368;">Przestępstwa związane z użyciem siły/uszczerbkiem na zdrowiu</td>
-        </tr>
-        <tr>
-          <td>Art. 13 §1 + 148 §1 KK | Usiłowanie zabójstwa obywatela</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">15-30</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="15" data-jail-max="30"></td>
-        </tr>
-        <tr>
-          <td>Art. 13 §1 + 148 §2 KK | Usiłowanie zabójstwa funkcjonariusza</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-20</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="20"></td>
-        </tr>
-        <tr>
-          <td>Art. 223 KK | Napaść na funkcjonariusza publicznego</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-20</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="20"></td>
-        </tr>
-        <tr>
-          <td>Art. 190 §1 KK | Groźby karalne</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">5-10</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="5" data-jail-max="10"></td>
-        </tr>
-        <tr>
-          <td>Art. 157 §3 KK | Nieumyślne spowodowanie uszczerbku na zdrowiu</td>
-          <td class="fine-amount">500-5000</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="5000" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-          <td>Art. 217 §1 KK | Naruszenie nietykalności cielesnej</td>
-          <td class="fine-amount">500-5000</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="5000" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-        <td>Art. 263 §2 KK | Posiadanie broni klasy 3 – długa</td>
-          <td class="fine-amount">Brak</td>
-          <td class="jail-range">10-20</td>
-          <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="10" data-jail-max="20"></td>
-        </tr>
-        <tr>
-          <td>Art. 158 §1 KK    | Udział w bójce</td>
-          <td class="fine-amount">500-1500</td>
-          <td class="jail-range">10-15</td>
-          <td><input type="checkbox" data-fine-min="500" data-fine-max="1500" data-jail-min="10" data-jail-max="15"></td>
-        </tr>
-        <tr>
-            <td>Art. 148 §1 KK	| Morderstwo</td>
-            <td class="fine-amount">Brak</td>
-            <td class="jail-range">300-Dożywocie</td>
-            <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="300" data-jail-max="9999"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="total-box">
-      <div class="total-item">
-        <div>Łączna grzywna</div>
-        <div class="total-value fine-total">$<span id="fineTotalMin">5,000</span> - $<span id="fineTotalMax">7,000</span></div>
-      </div>
-      <div class="total-item">
-        <div>Łączny wyrok</div>
-        <div class="total-value jail-total"><span id="jailTotalMin">0</span> - <span id="jailTotalMax">30</span> miesięcy</div>
-      </div>
-    </div>
-
-    <div id="selectedOffenses">
-      <h3>Zaznaczone wykroczenia:</h3>
-      <div id="offensesList"></div>
-      <button class="btn-success copy-btn" id="copyBtn">Kopiuj do schowka</button>
-    </div>
-  </div>
-
-  <footer>
-    &copy; 2025 1nVibe & MSHF. Wszelkie prawa zastrzeżone.
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-      const fineTotalMin = document.getElementById('fineTotalMin');
-      const fineTotalMax = document.getElementById('fineTotalMax');
-      const jailTotalMin = document.getElementById('jailTotalMin');
-      const jailTotalMax = document.getElementById('jailTotalMax');
-      const selectedOffensesDiv = document.getElementById('selectedOffenses');
-      const offensesList = document.getElementById('offensesList');
-      const searchInput = document.getElementById('searchInput');
-      const showSelectedBtn = document.getElementById('showSelectedBtn');
-      const resetBtn = document.getElementById('resetBtn');
-      const copyBtn = document.getElementById('copyBtn');
-
-      const rows = document.querySelectorAll('#taryfikator tr');
-      
-      rows.forEach(row => {
-        row.addEventListener('click', function(e) {
-          if (e.target.tagName === 'INPUT' || this.classList.contains('category-header')) return;
-          
-          const checkbox = this.querySelector('input[type="checkbox"]');
-          if (checkbox) {
-            checkbox.checked = !checkbox.checked;
-            updateTotals();
-          }
-        });
-      });
-
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#taryfikator tr');
-        let lastVisibleHeader = null;
-        
-        rows.forEach(row => {
-          if (row.classList.contains('category-header')) {
-            row.style.display = 'none';
-            lastVisibleHeader = row;
-          } else {
-            const offenseText = row.cells[0].textContent.toLowerCase();
-            if (offenseText.includes(searchTerm)) {
-              row.style.display = '';
-              if (lastVisibleHeader) {
-                lastVisibleHeader.style.display = '';
-              }
-            } else {
-              row.style.display = 'none';
-            }
-          }
-        });
-      });
-
-      function updateTotals() {
-        let totalFineMin = 0;
-        let totalFineMax = 0;
-        let totalJailMin = 0;
-        let totalJailMax = 0;
-
-        checkboxes.forEach(c => {
-          if (c.checked) {
-            totalFineMin += parseInt(c.dataset.fineMin);
-            totalFineMax += parseInt(c.dataset.fineMax);
-            totalJailMin += parseInt(c.dataset.jailMin);
-            totalJailMax += parseInt(c.dataset.jailMax);
-          }
-        });
-
-        fineTotalMin.textContent = totalFineMin.toLocaleString();
-        fineTotalMax.textContent = totalFineMax.toLocaleString();
-        jailTotalMin.textContent = totalJailMin;
-        jailTotalMax.textContent = totalJailMax;
-      }
-
-      resetBtn.addEventListener('click', function() {
-        checkboxes.forEach(cb => cb.checked = false);
-        fineTotalMin.textContent = '0';
-        fineTotalMax.textContent = '0';
-        jailTotalMin.textContent = '0';
-        jailTotalMax.textContent = '0';
-        selectedOffensesDiv.style.display = 'none';
-        searchInput.value = '';
-        
-        document.querySelectorAll('#taryfikator tr').forEach(row => {
-          row.style.display = '';
-        });
-      });
-
-      showSelectedBtn.addEventListener('click', showSelected);
-
-      function showSelected() {
-        let selected = [];
-        checkboxes.forEach(cb => {
-          if (cb.checked) {
-            const row = cb.closest('tr');
-            selected.push({
-              offense: row.cells[0].textContent,
-              fineMin: cb.dataset.fineMin,
-              fineMax: cb.dataset.fineMax,
-              jailMin: cb.dataset.jailMin,
-              jailMax: cb.dataset.jailMax
-            });
-          }
-        });
-
-        if (selected.length === 0) {
-          offensesList.innerHTML = '<p>Nie zaznaczono żadnych wykroczeń</p>';
-        } else {
-          let html = '<div class="selected-list">';
-          selected.forEach(item => {
-            const fineText = item.fineMin === item.fineMax ? item.fineMin : `${item.fineMin}-${item.fineMax}`;
-            const jailText = item.jailMin === item.jailMax ? item.jailMin : `${item.jailMin}-${item.jailMax}`;
-            html += `
-              <div class="offense-item">
-                <strong>${item.offense}</strong><br>
-                Grzywna: $${fineText}, Więzienie: ${jailText} miesięcy
-              </div>
-            `;
-          });
-          html += '</div>';
-          html += `
-            <div class="offense-item total-summary">
-              <strong>SUMA:</strong><br>
-              Grzywna: $${fineTotalMin.textContent}-${fineTotalMax.textContent}, Więzienie: ${jailTotalMin.textContent}-${jailTotalMax.textContent} miesięcy
+        <div class="controls">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Wyszukaj przestępstwo...">
+                    <span class="search-icon"><i class="fas fa-search"></i></span>
+                </div>
             </div>
-          `;
-          offensesList.innerHTML = html;
-        }
+            <div class="buttons">
+                <button class="btn-success" id="calculateBtn">
+                    <i class="fas fa-calculator"></i> Oblicz kary
+                </button>
+                <button class="btn-danger" id="resetBtn">
+                    <i class="fas fa-trash-alt"></i> Wyczyść
+                </button>
+                <button class="btn-warning" id="infoBtn">
+                    <i class="fas fa-info-circle"></i> Informacje
+                </button>
+            </div>
+        </div>
 
-        selectedOffensesDiv.style.display = 'block';
-        selectedOffensesDiv.scrollIntoView({ behavior: 'smooth' });
+        <div class="total-box">
+            <div class="total-item">
+                <span class="total-label">Łączna grzywna</span>
+                <span class="total-value fine-total">0 PLN</span>
+            </div>
+            <div class="total-item">
+                <span class="total-label">Łączna kara więzienia</span>
+                <span class="total-value jail-total">0 miesięcy</span>
+            </div>
+            <div class="total-item">
+                <span class="total-label">Liczba wykroczeń</span>
+                <span class="total-value offenses-total">0</span>
+            </div>
+        </div>
+        <div class="table-wrapper">
+          <table id="taryfikator">
+              <thead>
+                  <tr>
+                      <th style="width: 60%;">Przepis</th>
+                      <th style="width: 17%;">Grzywna (PLN)</th>
+                      <th style="width: 17%;">Kara więzienia (msc)</th>
+                      <th style="width: 4.5%;">Wybierz</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- Wykroczenia drogowe -->
+                  <tr class="category-header category-traffic">
+                      <td colspan="4">Wykroczenia drogowe</td>
+                  </tr>
+                  <tr>
+                      <td>Art. 86 §1 KW | Spowodowanie zagrożenia bezpieczeństwa w ruchu drogowym</td>
+                      <td class="fine-amount">50-5.000</td>
+                      <td class="jail-range">Brak</td>
+                      <td><input type="checkbox" data-fine-min="50" data-fine-max="5000" data-jail-min="0" data-jail-max="0"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 87 §1 KW | Jazda pod wpływem alkoholu lub narkotyków (powyżej 0,5 promila)</td>
+                      <td class="fine-amount">5.000-60.000</td>
+                      <td class="jail-range">0-24</td>
+                      <td><input type="checkbox" data-fine-min="5000" data-fine-max="60000" data-jail-min="0" data-jail-max="24"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 92 §1 pkt 3 Kodeksu wykroczeń | Przekroczenie dozwolonej prędkości (o ponad 50 km/h w obszarze zabudowanym)</td>
+                      <td class="fine-amount">300-5.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="300" data-fine-max="5000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 178 KK | 86 §1 Kodeksu wykroczeń | Brawurowa jazda / Stwarzanie zagrożenia</td>
+                      <td class="fine-amount">1.000-10.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="1000" data-fine-max="10000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 178b KK | Niezatrzymanie się do kontroli drogowej (ucieczka przed Policją)</td>
+                      <td class="fine-amount">2.500-20.000</td>
+                      <td class="jail-range">3-12</td>
+                      <td><input type="checkbox" data-fine-min="2500" data-fine-max="20000" data-jail-min="3" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 86 §1 pkt 1 Kodeksu wykroczeń | Poruszanie się pojazdem w stanie zagrażającym bezpieczeństwu</td>
+                      <td class="fine-amount">500-5.000</td>
+                      <td class="jail-range">0-6</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="5000" data-jail-min="0" data-jail-max="6"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 92 §1 pkt 1 Kodeksu wykroczeń | Przejazd na czerwonym świetle</td>
+                      <td class="fine-amount">500-1.500</td>
+                      <td class="jail-range">Brak</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="1500" data-jail-min="0" data-jail-max="0"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 288 KK | 177 §1 KK | Zniszczenie mienia, spowodowanie wypadku</td>
+                      <td class="fine-amount">1.000-20.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="1000" data-fine-max="20000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 177 §1 KK | 178 KK | 181 KK | Potrącenie pieszego (w zależności od skutków)</td>
+                      <td class="fine-amount">1.000-50.000</td>
+                      <td class="jail-range">0-24</td>
+                      <td><input type="checkbox" data-fine-min="1000" data-fine-max="50000" data-jail-min="0" data-jail-max="24"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 49 §1 pkt 3 Kodeksu wykroczeń | Nieprawidłowe parkowanie</td>
+                      <td class="fine-amount">100-500</td>
+                      <td class="jail-range">Brak</td>
+                      <td><input type="checkbox" data-fine-min="100" data-fine-max="500" data-jail-min="0" data-jail-max="0"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 97 Kodeksu wykroczeń | Przechodzenie przez jezdnię w miejscu niedozwolonym</td>
+                      <td class="fine-amount">50-200</td>
+                      <td class="jail-range">Brak</td>
+                      <td><input type="checkbox" data-fine-min="50" data-fine-max="200" data-jail-min="0" data-jail-max="0"></td>
+                  </tr>
+
+                  <!-- Przestępstwa lekkie -->
+                  <tr class="category-header category-minor">
+                      <td colspan="4">Przestępstwa lekkie</td>
+                  </tr>
+                  <tr>
+                      <td>Art. 224 KK | Niezastosowanie się do poleceń funkcjonariusza publicznego</td>
+                      <td class="fine-amount">500-3.000</td>
+                      <td class="jail-range">0-6</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="3000" data-jail-min="0" data-jail-max="6"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 226 KK | Znieważenie funkcjonariusza publicznego</td>
+                      <td class="fine-amount">500-3.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="3000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 221 KK | Przeszkadzanie funkcjonariuszowi publicznemu w wykonywaniu obowiązków</td>
+                      <td class="fine-amount">500-3.000</td>
+                      <td class="jail-range">3-12</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="3000" data-jail-min="3" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 66a KK | Fałszywe zawiadomienie o przestępstwie lub niebezpieczeństwie</td>
+                      <td class="fine-amount">1.000-10.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="1000" data-fine-max="10000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 233 KK | Składanie fałszywych zeznań</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">6-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="6" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 278 §1 KK | Kradzież pojazdu</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 244 KK | Przemyt, posiadanie i handel towarami akcyzowymi bez legalnych dokumentów</td>
+                      <td class="fine-amount">1.000-10.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="1000" data-fine-max="10000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 224 KK | Stawianie czynnego oporu funkcjonariuszowi publicznemu</td>
+                      <td class="fine-amount">500-3.000</td>
+                      <td class="jail-range">3-12</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="3000" data-jail-min="3" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 278 §1 KK | Kradzież cudzej własności</td>
+                      <td class="fine-amount">500-5.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="5000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 189a KK | Ukrywanie się lub zakrywanie twarzy w celu utrudnienia identyfikacji</td>
+                      <td class="fine-amount">100-1.000</td>
+                      <td class="jail-range">Brak</td>
+                      <td><input type="checkbox" data-fine-min="100" data-fine-max="1000" data-jail-min="0" data-jail-max="0"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 229 §1 KK | Próba przekupstwa funkcjonariusza publicznego</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 278 §1 KK | Kradzież pojazdu (np. radiowozu)</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+
+                  <!-- Przestępstwa ciężkie -->
+                  <tr class="category-header category-major">
+                      <td colspan="4">Przestępstwa ciężkie</td>
+                  </tr>
+                  <tr>
+                      <td>Art. 190 §1 KK | 160 KK | Groźby z bronią</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 178b KK | Ucieczka przed Policją</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">3-12</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="3" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 189 §1 i §3 KK | Porwanie (bezprawne pozbawienie wolności osoby)</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-60</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="60"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 239 §1 KK | Pomoc w ucieczce</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">6-24</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="6" data-jail-max="24"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 18 §1-3 KK | Współudział w przestępstwie (np. napad na jubilera)</td>
+                      <td class="fine-amount">zależnie od czynu głównego</td>
+                      <td class="jail-range">jak za główne przestępstwo</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="0" data-jail-max="0"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 280 §1 KK | Napad na sklep</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-60</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="60"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 280 §2 KK | Napad na Jubilera</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">60-180</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="60" data-jail-max="180"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 280 §2 KK | Napad na bank / skarbiec z użyciem broni</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">120-240</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="120" data-jail-max="240"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 189 §1 i §3 KK | Bezprawne pozbawienie wolności funkcjonariusza publicznego (porwanie Policjanta)</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">24-72</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="24" data-jail-max="72"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 13 §1 + 280 KK | Próba napadu / napaści</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">6-24</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="6" data-jail-max="24"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 227 KK | Podszywanie się pod funkcjonariusza</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 190a §1 KK | Nękanie obywatela (stalking)</td>
+                      <td class="fine-amount">500-10.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="10000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 115 §20 KK | Terroryzm (definicja)</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">300-Dożywocie</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="300" data-jail-max="9999"></td>
+                  </tr>
+
+                  <!-- Przestępstwa narkotykowe -->
+                  <tr class="category-header category-drugs">
+                      <td colspan="4">Przestępstwa narkotykowe</td>
+                  </tr>
+                  <tr>
+                      <td>Art. 62 ust. 1 UoPN | Posiadanie narkotyków miękkich (>5g marihuany)</td>
+                      <td class="fine-amount">500-5.000</td>
+                      <td class="jail-range">3-12</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="5000" data-jail-min="3" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 62 ust. 2 UoPN | Posiadanie narkotyków twardych (kokaina, meta)</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 59 ust. 1 UoPN | Handel narkotykami miękkimi</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-60</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="60"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 59 ust. 2 UoPN | Handel narkotykami twardymi</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">24-60</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="24" data-jail-max="60"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 263 §2 KK | Posiadanie broni bez pozwolenia</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 263 §1 KK | Posiadanie zarejestrowanej broni krótkiej bez zezwolenia</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 263 §2-3 KK | Posiadanie nielegalnej broni długiej (klasa 3)</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">24-60</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="24" data-jail-max="60"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 263 §1 KK | Handel bronią</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">24-72</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="24" data-jail-max="72"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 160 KK | Bezpodstawne użycie broni / narażenie życia</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+
+                  <!-- Przestępstwa z użyciem przemocy -->
+                  <tr class="category-header category-violence">
+                      <td colspan="4">Przestępstwa z użyciem przemocy</td>
+                  </tr>
+                  <tr>
+                      <td>Art. 13 §1 + 148 §1 KK | Usiłowanie zabójstwa obywatela</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">60-120</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="60" data-jail-max="120"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 13 §1 + 148 §2 KK | Usiłowanie zabójstwa funkcjonariusza</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">72-144</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="72" data-jail-max="144"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 223 KK | Napaść na funkcjonariusza publicznego</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">12-36</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="12" data-jail-max="36"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 190 §1 KK | Groźby karalne</td>
+                      <td class="fine-amount">500-3.000</td>
+                      <td class="jail-range">0-6</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="3000" data-jail-min="0" data-jail-max="6"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 157 §3 KK | Nieumyślne spowodowanie uszczerbku na zdrowiu</td>
+                      <td class="fine-amount">1.000-10.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="1000" data-fine-max="10000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 217 §1 KK | Naruszenie nietykalności cielesnej</td>
+                      <td class="fine-amount">500-3.000</td>
+                      <td class="jail-range">0-6</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="3000" data-jail-min="0" data-jail-max="6"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 263 §2 KK | Posiadanie broni klasy 3 – długa</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">24-60</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="24" data-jail-max="60"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 158 §1 KK | Udział w bójce</td>
+                      <td class="fine-amount">500-5.000</td>
+                      <td class="jail-range">0-12</td>
+                      <td><input type="checkbox" data-fine-min="500" data-fine-max="5000" data-jail-min="0" data-jail-max="12"></td>
+                  </tr>
+                  <tr>
+                      <td>Art. 148 §1 KK | Morderstwo</td>
+                      <td class="fine-amount">Brak</td>
+                      <td class="jail-range">300-Dożywocie</td>
+                      <td><input type="checkbox" data-fine-min="0" data-fine-max="0" data-jail-min="300" data-jail-max="9999"></td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+        <div id="selectedOffenses">
+            <h3><i class="fas fa-clipboard-list"></i> Wybrane wykroczenia</h3>
+            <div id="selectedList"></div>
+            <button class="btn-primary copy-btn" id="copyBtn">
+                <i class="fas fa-copy"></i> Kopiuj podsumowanie
+            </button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Taryfikator wykroczeń i przestępstw | Wersja 2.0</p>
+            <p>Dane mają charakter informacyjny i nie stanowią porady prawnej</p>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const tableBodyRows   = document.querySelectorAll('#taryfikator tbody tr');
+  const checkboxes      = document.querySelectorAll('#taryfikator input[type="checkbox"]');
+  const selectedList    = document.getElementById('selectedList');
+  const selectedOffenses= document.getElementById('selectedOffenses');
+  const calculateBtn    = document.getElementById('calculateBtn');
+  const resetBtn        = document.getElementById('resetBtn');
+  const copyBtn         = document.getElementById('copyBtn');
+  const searchInput     = document.getElementById('searchInput');
+  const fineTotalEl     = document.querySelector('.fine-total');
+  const jailTotalEl     = document.querySelector('.jail-total');
+  const offensesTotalEl = document.querySelector('.offenses-total');
+
+  let selectedItems = [];
+
+  tableBodyRows.forEach(row => {
+    row.setAttribute('data-row', 'true');
+
+    row.addEventListener('click', e => {
+      if (e.target.tagName === 'INPUT' || row.classList.contains('category-header')) return;
+
+      const checkbox = row.querySelector('input[type="checkbox"]');
+      if (!checkbox) return;
+
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event('change'));
+    });
+  });
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function () {
+      const row     = this.closest('tr');
+      const offense = {
+        name : row.cells[0].textContent,
+        fine : row.cells[1].textContent,
+        jail : row.cells[2].textContent,
+        row  : row
+      };
+
+      if (this.checked) {
+        selectedItems.push(offense);
+        row.classList.add('row-selected');
+      } else {
+        selectedItems = selectedItems.filter(o => o.row !== row);
+        row.classList.remove('row-selected');
       }
 
-      copyBtn.addEventListener('click', function() {
-        let articlesToCopy = [];
-        checkboxes.forEach(cb => {
-          if (cb.checked) {
-            const row = cb.closest('tr');
-            const offenseText = row.cells[0].textContent;
-            const articlePart = offenseText.split('|')[0].trim();
-            articlesToCopy.push(articlePart);
-          }
-        });
+      updateSelectedList();
+    });
+  });
 
-        if (articlesToCopy.length === 0) {
-          alert('Nie zaznaczono żadnych wykroczeń do skopiowania');
-          return;
-        }
+  function updateSelectedList() {
+    selectedList.innerHTML = '';
 
-        const textToCopy = articlesToCopy.join('\n');
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => {
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = 'Skopiowano!';
-            setTimeout(() => {
-              copyBtn.textContent = originalText;
-            }, 2000);
-          })
-          .catch(err => {
-            console.error('Błąd podczas kopiowania: ', err);
-          });
-      });
+    if (selectedItems.length === 0) {
+      selectedOffenses.style.display = 'none';
+      fineTotalEl.textContent        = '0 PLN';
+      jailTotalEl.textContent        = '0 miesięcy';
+      offensesTotalEl.textContent    = '0';
+      return;
+    }
 
-      checkboxes.forEach(cb => {
-        cb.addEventListener('change', updateTotals);
+    selectedOffenses.style.display = 'block';
+
+    selectedItems.forEach((item, idx) => {
+      const div = document.createElement('div');
+      div.className = 'offense-item fade-in';
+      div.innerHTML = `
+        <div>
+          <strong>${item.name}</strong><br>
+          <span class="fine-amount">${item.fine}</span> |
+          <span class="jail-range">${item.jail}</span>
+        </div>
+        <div class="offense-actions">
+          <button class="btn-danger btn-sm remove-btn" data-index="${idx}">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>`;
+      selectedList.appendChild(div);
+    });
+
+    selectedList.querySelectorAll('.remove-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx   = +btn.dataset.index;
+        const item  = selectedItems[idx];
+        const cbx   = item.row.querySelector('input[type="checkbox"]');
+        cbx.checked = false;
+        cbx.dispatchEvent(new Event('change'));
       });
     });
-  </script>
 
+    offensesTotalEl.textContent = selectedItems.length;
+  }
 
-</body></html>
+  searchInput.addEventListener('input', function () {
+    const term = this.value.toLowerCase();
+
+    tableBodyRows.forEach(row => {
+      if (row.classList.contains('category-header')) return;
+      row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+    });
+  });
+
+  calculateBtn.addEventListener('click', () => {
+    let totalFine = 0;
+    let totalJail = 0;
+
+    selectedItems.forEach(item => {
+      const fineMatch = item.fine.match(/(\d[\d\s.]*)/g);
+      const jailMatch = item.jail.match(/(\d+)/g);
+
+      if (fineMatch) {
+        const fines = fineMatch.map(n => +n.replace(/\D/g, ''));
+        totalFine += fines.reduce((a, b) => a + b) / fines.length;
+      }
+      if (jailMatch) {
+        const jails = jailMatch.map(n => +n);
+        totalJail += jails.reduce((a, b) => a + b) / jails.length;
+      }
+    });
+
+    fineTotalEl.textContent = `${Math.round(totalFine)} PLN`;
+    jailTotalEl.textContent = `${Math.round(totalJail)} miesięcy`;
+  });
+
+  resetBtn.addEventListener('click', () => {
+    checkboxes.forEach(cbx => {
+      cbx.checked = false;
+      cbx.closest('tr').classList.remove('row-selected');
+    });
+
+    selectedItems = [];
+    updateSelectedList();
+    searchInput.value = '';
+    tableBodyRows.forEach(row => (row.style.display = ''));
+  });
+
+copyBtn.addEventListener('click', function () {
+    let summary = '';
+
+    selectedItems.forEach(item => {
+        const match = item.name.match(/Art\.\s*\d+[a-zA-Z]*\s*§\s*\d+[a-zA-Z]*/);
+        if (match) {
+            summary += `${match[0]}\n`;
+        }
+    });
+
+    navigator.clipboard.writeText(summary.trim()).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Skopiowano!';
+        
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+        }, 2000);
+    });
+});
+
+  document.getElementById('infoBtn').addEventListener('click', () => {
+    alert('Taryfikator wykroczeń i przestępstw\nWersja 2.0\n\nDane mają charakter informacyjny i nie stanowią porady prawnej.');
+  });
+});
+</script>
+
+</body>
+</html>
