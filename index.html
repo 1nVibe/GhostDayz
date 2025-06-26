@@ -1128,7 +1128,7 @@ copyBtn.addEventListener('click', function () {
     let summary = '';
 
     selectedItems.forEach(item => {
-        const match = item.name.match(/Art\.\s*\d+[a-zA-Z]*\s*§\s*\d+[a-zA-Z]*/);
+        const match = item.name.match(/Art\.\s*\d+[a-zA-Z]*\s*(§\s*\d+[a-zA-Z]*)?/);
         if (match) {
             summary += `${match[0]}\n`;
         }
