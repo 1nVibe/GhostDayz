@@ -1130,9 +1130,9 @@ copyBtn.addEventListener('click', function () {
     selectedItems.forEach(item => {
         const match = item.name.match(/^[^|]*/);
         if (match) {
-            summary += `${match[0].trim()}\n`; 
+            summary += `${match[0].trim()}  `; 
         }
-    });
+    })
 
     navigator.clipboard.writeText(summary.trim()).then(() => {
         const originalText = copyBtn.innerHTML;
